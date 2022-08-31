@@ -21,7 +21,7 @@ if %zip_flag% (
 	echo Add new data to archive
 	echo ArchivePath: %zippath% 
 	echo ArchiveDstination: %destination_dir%
-    cd %destination_dir%
+        cd %destination_dir%
 	if exist %zipname% (
 	    echo %zipname% exists in the directory.
 	) else (
