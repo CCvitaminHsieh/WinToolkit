@@ -1,32 +1,40 @@
 @echo off
 color 0a
-set source_directory=C:\Users\QEL\Labber\Data\
-set destination_dir=D:\LabberDataBackup\
+
+set src_directory=C:\Users\QEL\Labber\Data\
+set dst_directory=D:\LabberDataBackup\
+set zip_installer=C:\Program Files\7-Zip
 set zipname=TestArchive.zip
+
 set zip_flag=1==1
 set copy_flag=1==1
 set pause_flag=1==0
 
-echo %source_directory% -> %destination_dir%
-if exist %destination_dir% (
-	echo %destination_dir% exists
+echo %src_directory% -> %dst_directory%
+if exist %dst_directory% (
+	echo %dst_directory% exists
 ) else (
-	mkdir %destination_dir%
+	mkdir %dst_directory%
 )
 if %copy_flag% (
 	echo.
-	call robocopy %source_directory% %destination_dir% /E
+	call robocopy %src_directory% %dst_directory% /E
 )
 if %zip_flag% (
-	set zippath=%destination_dir%%zipname%
+	set zippath=%dst_directory%%zipname%
 	echo Add new data to archive
 	echo ArchivePath: %zippath% 
-	echo ArchiveDstination: %destination_dir%
-        cd %destination_dir%
+	echo ArchiveDestination: %dst_directory%
+        cd %dst_directory%
 	if exist %zipname% (
 		echo %zipname% exists in the directory.
 	) else (
-		call 7z a %zipname% %destination_dir% 
+		if exist %zip_installer% (
+			echo Find 7z and try to zip %dst_directory% into a zip file.
+			call 7z a %zipname% %dst_directory% 
+		) else (
+			echo Sorry, we cannot compress this directory to a zip file due to missing 7z, please install 7z on your computer!
+		)
 	)
 )
 if %cp_flag% (
